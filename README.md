@@ -1,7 +1,7 @@
 # Proactive-Threat-Detection-and-Investigation-for-Cloud-Security-for-Businesses
 
 ## Project Overview
-In this lab, I worked with Security Command Center's (SCC) integrated threat detection services. Event Threat Detection allowed me to monitor Google Cloud logs 
+In this project, I worked with Security Command Center's (SCC) integrated threat detection services. Event Threat Detection allowed me to monitor Google Cloud logs 
 for patterns that signal suspicious activities, while Container Threat Detection provided continuous monitoring of Google Kubernetes Engine (GKE) nodes. 
 This feature analyzes detected events to determine if they should be treated as incidents. Through hands-on practice, I learned to investigate and manage common
 vulnerabilities in events and virtual machines, using SCC's Event Threat Detection to surface and triage findings effectively.
