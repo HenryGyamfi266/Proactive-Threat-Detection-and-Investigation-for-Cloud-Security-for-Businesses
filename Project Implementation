@@ -33,5 +33,41 @@ I noted that the Findings "Non org IAM member" has disappeared from the list of 
 This is because the Security Health Analytics service has checked the updated configuration of IAM policies and deactivated this Finding.
 
 **Task3**-Configuring a secured cloud environment to detect threats
+In this section, I'll configure Cymbal's environment to detect service account threats through logging.
+In this scenario, a malicious actor exploits vulnerable software on a virtual machine and obtains access to 
+the Default Service Account (which was used to create the instance). The actor wants to understand what they can do in the Google Cloud environment. 
+To check their permissions, the actor will call the projects.getIamPolicy method. SCC should detect and report this suspicious activity recorded in the logs.
+For SCC to detect this activity, we need to enable Resource Manager Admin Read logs
+1. In the Google Cloud Console, I opened the navigation menu and selected IAM & Admin > Audit Logs.
+2. I found the Cloud Resource Manager API and clicked the checkbox next to it.
+3. On the right side of the tab, find the configuration frame: Cloud Resource Manager API - Permission Types. Select the Admin Read check box and click Save.
+
+For reproducing the scenario, I needed to create a new virtual machine with a default Service Account and cloud-platform access scope.
+4. I open the navigation menu and select Compute Engine > VM instances. click the Create Instance button. Select region as Region and set zone as Zone.
+5. In the "Access scopes" section, select the Allow full access to all Cloud APIs value. Click Create to launch the new VM instance.
+6. Once the instance was created, I clicked on the SSH button and run the code: gcloud projects get-iam-policy $(gcloud config get project)
+7. Now, I opened the navigation menu and selected Security > Security Command Center > Findings. Set the value of the time range selector to Last hour
+8. Now, click on the Finding Discovery: service account self-investigation. Select the Source Properties tab at the top of the window.
+9. Then I clicked on the checkbox next to the Discovery: Service Account Self-Investigation Finding.
+10. clicked on the MUTE OPTIONS drop-down list. Then select the Apply mute override option. Then I ensured that the Finding no longer appears in the SCC interface.
+
+**Task4** - Managing SCC findings with Event Threat Detection
+In the previous task, I enabled logs for the Resource Manager service using an IAM configuration. 
+For logging all DNS queries, I will need to create a DNS policy with enabled logging. For detecting some findings, I also need to create additional configurations, such as DNS policies.
+This will allow me to detect malicious software running on compute resources and identify well-known malicious DNS addresses.
+1. To enable full DNS query logging, I opened the Navigation menu clicked View All Products and select Network services > Cloud DNS.
+2. Select the "DNS Server Policies" tab and then clicked the Create Policy button.
+3. Enter dns-test-policy for the name of the DNS policy. Select the On radio-button for DNS logs.
+4. In the "Alternate DNS servers" part, select default from the network dropdown and click OK. Click the Create button.
+5. Then I returned to the SSH session of our virtual machine and try connecting to the malicious URL by running the following command: curl etd-malware-trigger.goog
+6. I returned to the Google Cloud Console, opened the navigation menu and select Security > Security Command Center > Findings. Then I saw a new threat appear "Malware: Bad Domain"
+7. I clicked on this Finding. In the new window, click on the SOURCE PROPERTIES tab. Then I closed the Finding Window
+8. I clicked on the checkbox near the Finding Malware: Bad Domain and clicked on the Mute Options drop-down list.
+9. Clicked Apply mute override. This Finding will now be removed from the SCC interface. From the navigation menu, select Compute Engine > VM instances.
+10. Click on the checkbox next to the virtual machine instance you created previously and press Delete. Confirm the delete action by clicking Delete.
+
+
+
+
 
 
