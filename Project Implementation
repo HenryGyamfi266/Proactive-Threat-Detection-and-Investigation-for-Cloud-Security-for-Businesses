@@ -1,0 +1,37 @@
+**Task1** Enabling Security Command Center API 
+In order to enable the SCC API, I did the following:
+1. On the google cloud console, I clicked on the Navigation menu in the top left corner of the Google Cloud console.
+2. Select APIs & Services from the drop down and click on Enable APIs & Services and click + Enable APIs & Services
+3. I then searched for Security Command Center API in the search box.
+4. Click on Security Command Center API, then click Enable.
+
+**Task2**-  Initiate and mitigate a threat with Event Threat Detection
+The Event Threat Detection service of SCC detects many threats by monitoring suspicious activities reported in Google Cloud logs. 
+One of these activities might be delegating sensitive roles to an external user, such as someone who has a miscellaneous gmail.com account that isn't tied to your corporate domain.
+This might happen in situations when an intruder has managed to access a GCP organization and now they are interested in establishing persistence.
+To do this, the hacker would grant sensitive roles to their @gmail.com account.This delegation simulates establishing persistence. 
+If a hacker accidentally gets temporary access to Cymbal's system, they will need to establish persistence and to get access to a more stable account.
+For this project, In order to initiate and mitigate the threat, I followed these processes
+1. In the Google Cloud Console, I opened the navigation menu and selected IAM & Admin > IAM. Press the Grant Access button.
+2. In the "New principals" field, I entered the demo email address which is = demouser1@gmail.com
+3. For the Role field, I selected BigQuery > BigQuery Admin and clicked Save.
+4. Open the navigation menu and select Security > Security Command Center > Findings. Changed the Time Range dropdown to the Last 6 hours.
+5. Of the three Findings, I clicked on the Finding Non org IAM member and scroll down to check the "Source display name" in the description of this Finding.
+6. I ensured that the display name is set to Security Health Analytics. I closed the window with the Finding.
+7. I clicked on the other Finding Persistence: IAM anomalous grant and scrolled down to check the "Source display name" in the description of this Finding.
+8. I ensured that the display name is set to "Event Threat Detection"—this is the SCC service that detected a misconfiguration in the Project.
+9. I now scrolled to the top of the window and select the tab Source Properties. In this tab expand the Properties > sensitiveRoleGrant field.
+10. This is where I found:
+principalEmail: who performed the suspicious action
+bindingDetails: information about the role and the member to whom this role has been granted
+members: to whom the permission has been granted
+11. Now, From the navigation menu, select IAM & Admin > IAM.
+12. I now clicked the checkbox next to the demouser1@gmail.com principal and clicked the button Remove Access. Clicked Confirm
+13. Now I opened the navigation menu and select Security > Security Command Center > Findings.
+Observation
+I noted that the Findings "Non org IAM member" has disappeared from the list of findings. 
+This is because the Security Health Analytics service has checked the updated configuration of IAM policies and deactivated this Finding.
+
+**Task3**-Configuring a secured cloud environment to detect threats
+
+
